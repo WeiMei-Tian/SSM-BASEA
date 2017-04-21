@@ -25,7 +25,4 @@
 
     <!-- 配置基于注解的声明式事务 -->
     <!--<tx:annotation-driven transaction-manager="transactionManager" />-->
-
-    <!--上传相关-->
-    <bean id="multipartResolver" class="com.gmobile.upload.MyMultipartResolve"/>
 </beans>
