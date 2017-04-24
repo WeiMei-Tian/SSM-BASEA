@@ -15,7 +15,7 @@ import org.apache.shiro.util.Factory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
+import org.apache.log4j.Logger;
 import junit.framework.Assert;
 
 @RunWith(JUnit4.class)
@@ -23,6 +23,10 @@ public class TestController {
 
     @Test
     public void test(){
+
+        Logger logger = Logger.getLogger(TestController.class);
+        logger.info("start shiro ");
+
         Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
         SecurityManager securityManager = factory.getInstance();
         SecurityUtils.setSecurityManager(securityManager);
