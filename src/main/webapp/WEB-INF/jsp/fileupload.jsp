@@ -70,6 +70,7 @@
 	$(function() {
 		//上传文件按钮
 		var ctx = $("#ctx").val().trim();
+		console.info("======ctx is====" + ctx);
 		$("#uploadBtn").click(function() {
 			// 进度条归零
 			$("#progressBar").width("0%");
@@ -109,7 +110,7 @@
 				return xhr;
 			};
 			$.ajax({
-				url : ctx + '/app/upload',
+				url : ctx + 'upload',
 				type : 'POST',
 				cache : false,
 				data : formData,
@@ -122,7 +123,7 @@
 					if (result.code == "0") {
 						$("#uploadBtn").text("上传成功");
 						$("#uploadBtn").removeAttr("disabled");
-						$("#imageUpload").attr("src", "http://localhost:8080/images/" + result.data);
+						$("#imageUpload").attr("src", "http://localhost:8080/static/images/" + result.data);
 						setTimeout(function() {
 							$("#progressBar").parent().hide();
 							$("#uploadBtn").text("上传文件");

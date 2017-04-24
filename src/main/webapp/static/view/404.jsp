@@ -20,7 +20,7 @@
             <img src="../images/404.jpg" alt="404">
             <p><b>出错啦！</b></p>
             <p>您访问的页面不存在</p>
-            <div class="bt" ><a href="<%=path + "/app/forMain"%>">返回首页</a></div>
+            <div class="bt" ><a href="<%=basePath%>app/forMain">返回首页</a></div>
         </div>
     </div>
 </div>

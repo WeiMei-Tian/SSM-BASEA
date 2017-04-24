@@ -1,13 +1,8 @@
-<%@ page import="java.util.Enumeration" %><%--
-  Created by IntelliJ IDEA.
-  User: admin
-  Date: 2017/3/20
-  Time: 16:21
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
 <html>
 <head>
+    <%@include file="../jsp/head.jsp"%>
     <title>Title</title>
     </head>
 <body>
@@ -20,18 +15,15 @@
     <br/>
 
     <P>
-        请求地址是： <%=basePath%>
+        请求地址是： <%=basePath%>  相对地址时:${pageContext.request.contextPath}
     </P>
     <br/>
-    <%
-        Enumeration headerNames = request.getHeaderNames();
-        while(headerNames.hasMoreElements()) {
-            String paramName = (String)headerNames.nextElement();
-            System.out.print("<tr><td>" + paramName + "</td>\n");
-            String paramValue = request.getHeader(paramName);
-            System.out.print("<td> " + paramValue + "</td></tr>\n");
-        }
-    %>
+    <a href="<%=basePath%>user/imgInfo">进入用户图片上传界面</a>
 
 </body>
+<script type="text/javascript">
+    $(function(){
+        console.info("======ctx is====" + ${pageContext.request.contextPath});
+    })
+</script>
 </html>
