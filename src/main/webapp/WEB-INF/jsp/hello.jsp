@@ -15,10 +15,10 @@
     <br/>
 
     <P>
-        请求地址是： <%=basePath%>  相对地址时:${pageContext.request.contextPath}
+        请求地址是： <%=basePath%>  相对地址时:
     </P>
     <br/>
-    <a href="<%=basePath%>user/imgInfo">进入用户图片上传界面</a>
+    <a href="${pageContext.request.contextPath}/user/imgInfo">进入用户图片上传界面</a>
 
 </body>
 <script type="text/javascript">

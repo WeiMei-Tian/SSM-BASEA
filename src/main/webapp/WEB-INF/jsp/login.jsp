@@ -42,21 +42,21 @@
 </head>
 <body>
 <div class="div">
-        <form:form modelAttribute="user" method="post" action="${pageContext.request.contextPath}/app/loginAction">
+        <form:form modelAttribute="user" method="post" action="${pageContext.request.contextPath}loginAction">
             <div class="tip">登陆界面</div>
             <div class="name">
                 <div class="col1">
                     用户名：
                 </div>
                 <div class="col3">
-                    <form:input path="name" />
+                    <form:input path="username" />
                 </div>
             </div>
             <div>
                 <div class="col1">
                 </div>
                 <div class="col2">
-                    <form:errors path="name"></form:errors>
+                    <form:errors path="username"></form:errors>
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
                     密码：
                 </div>
                 <div class="col3">
-                    <form:input path="password" />
+                    <form:password path="password" />
                 </div>
             </div>
             <div>

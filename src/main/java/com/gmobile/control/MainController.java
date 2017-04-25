@@ -1,10 +1,14 @@
 package com.gmobile.control;
 
 import com.gmobile.domain.User;
+import com.gmobile.service.UserService;
 import com.gmobile.util.BaseReturn;
 import com.gmobile.util.ErrorCode;
 import com.gmobile.util.ImageUtil;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,8 +28,13 @@ import java.util.List;
 @RequestMapping("/app")
 public class MainController {
 
+    @Autowired
+    private UserService userService;
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    private String login(){
+    private String login(Model model){
+        User user = new User();
+        model.addAttribute("user",user);
         return "login";
     }
 
@@ -32,7 +43,19 @@ public class MainController {
         if(bindingResult.hasErrors()){
             return "login";
         }
-        return "index";
+
+        Date current_date = new Date();
+        SimpleDateFormat SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        user.setCreateTime(SimpleDateFormat.format(current_date.getTime()));
+        user.setStatus("enable");
+
+        int statue = userService.login(user);
+        if(statue > 0){
+            return "redirect:forMain";
+        }else {
+            return "login";
+        }
+
     }
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
