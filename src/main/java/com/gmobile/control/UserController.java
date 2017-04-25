@@ -13,6 +13,6 @@ public class UserController {
     // 处理上传的
     @RequestMapping("/imgInfo")
     public String upload2() {
-        return "fileupload";
+        return "user/fileupload";
     }
 }

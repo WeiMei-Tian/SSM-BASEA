@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@include file="../jsp/tag.jsp"%>
+<%@include file="../tag.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
-<%@include file="../jsp/head.jsp"%>
+<%@include file="../head.jsp"%>
 <title>${title }</title>
 </head>
 
@@ -13,7 +13,7 @@
 	<div id="wrapper">
 
 		<!-- 侧边导航和banner -->
-		<%@include file="../jsp/nav.jsp"%>
+		<%@include file="../nav.jsp"%>
 
 		<div id="page-wrapper">
 			<div class="row">

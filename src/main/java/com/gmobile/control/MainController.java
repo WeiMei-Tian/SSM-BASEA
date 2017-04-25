@@ -1,23 +1,19 @@
 package com.gmobile.control;
 
+import com.gmobile.domain.User;
 import com.gmobile.util.BaseReturn;
 import com.gmobile.util.ErrorCode;
 import com.gmobile.util.ImageUtil;
-import org.apache.commons.io.FileUtils;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
+import javax.validation.Valid;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 
 /**
  * Created by admin on 2017/3/20.
@@ -25,6 +21,19 @@ import java.io.PrintWriter;
 @Controller
 @RequestMapping("/app")
 public class MainController {
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    private String login(){
+        return "login";
+    }
+
+    @RequestMapping(value = "/loginAction", method = RequestMethod.POST)
+    private String loginAction(@Valid @ModelAttribute("user") User user , BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "login";
+        }
+        return "index";
+    }
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     private String hello(){
@@ -39,7 +48,7 @@ public class MainController {
     // 处理上传的
     @RequestMapping("/userInfo")
     public String upload2() {
-        return "fileupload";
+        return "user/fileupload";
     }
 
 
