@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 public interface UserDao {
     public int insert(@Param("user") User user);
+
+    public int insertNotExist(@Param("user") User user);
 }

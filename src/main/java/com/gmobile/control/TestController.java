@@ -1,5 +1,6 @@
 package com.gmobile.control;
 
+import com.gmobile.util.MD5Util;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.DisabledAccountException;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
@@ -26,6 +27,8 @@ public class TestController {
 
         Logger logger = Logger.getLogger(TestController.class);
         logger.info("start shiro ");
+        logger.error("=====md5==" + MD5Util.getMD5Str("123456"));
+
 
         Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
         SecurityManager securityManager = factory.getInstance();

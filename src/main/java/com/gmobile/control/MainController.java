@@ -5,6 +5,7 @@ import com.gmobile.service.UserService;
 import com.gmobile.util.BaseReturn;
 import com.gmobile.util.ErrorCode;
 import com.gmobile.util.ImageUtil;
+import com.gmobile.util.MD5Util;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,19 +42,20 @@ public class MainController {
     @RequestMapping(value = "/loginAction", method = RequestMethod.POST)
     private String loginAction(@Valid @ModelAttribute("user") User user , BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            return "login";
+            return "redirect:login";
         }
 
         Date current_date = new Date();
         SimpleDateFormat SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         user.setCreateTime(SimpleDateFormat.format(current_date.getTime()));
         user.setStatus("enable");
+        user.setPassword(MD5Util.getMD5Str(user.getPassword()));
 
         int statue = userService.login(user);
         if(statue > 0){
             return "redirect:forMain";
         }else {
-            return "login";
+            return "redirect:login";
         }
 
     }

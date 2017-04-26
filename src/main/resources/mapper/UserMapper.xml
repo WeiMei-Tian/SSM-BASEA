@@ -10,4 +10,10 @@
         VALUES (#{user.username},#{user.password},#{user.createTime},#{user.status})
     </insert>
 
+    <insert id="insertNotExist">
+        INSERT INTO
+        usr_user(username,password,createTime,status) SELECT (#{user.username},#{user.password},#{user.createTime},#{user.status})
+        FROM UDAL WHERE NOT EXISTS (SELECT username FROM usr_user WHERE username = #{user.username})
+    </insert>
+    <!--INSERT INTO card(cardno, cardnum) SELECT '111', '100' FROM DUAL WHERE NOT EXISTS(SELECT cardno FROM card WHERE cardno = '111');-->
 </mapper>
