@@ -37,6 +37,7 @@
             display: inline-block;
             text-align: center;
         }
+        .errorMsg{color: #761c19}
         .sumbit{margin-top: 30px}
     </style>
 </head>
@@ -75,8 +76,8 @@
                     <form:errors path="password"></form:errors><br/>
                 </div>
             </div>
-            <input class="sumbit" type="submit" value="Submit" />
-
+            <input class="sumbit" type="submit" value="Submit" /><br/>
+            <label class="errorMsg">${error}</label>
         </form:form>
 </div>
 </body>

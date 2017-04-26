@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -32,15 +33,22 @@ public class MainController {
     @Autowired
     private UserService userService;
 
+    private Logger logger = Logger.getLogger(MainController.class);
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    private String login(Model model){
+    private String login(Model model,HttpServletRequest request){
         User user = new User();
         model.addAttribute("user",user);
+        String error = request.getParameter("error");
+        model.addAttribute("error",error);
         return "login";
     }
 
     @RequestMapping(value = "/loginAction", method = RequestMethod.POST)
-    private String loginAction(@Valid @ModelAttribute("user") User user , BindingResult bindingResult){
+    private String loginAction(@Valid @ModelAttribute("user") User user ,
+                               BindingResult bindingResult,
+                               Model model){
+
         if(bindingResult.hasErrors()){
             return "redirect:login";
         }
@@ -51,13 +59,20 @@ public class MainController {
         user.setStatus("enable");
         user.setPassword(MD5Util.getMD5Str(user.getPassword()));
 
-        int statue = userService.login(user);
-        if(statue > 0){
-            return "redirect:forMain";
-        }else {
+        try{
+            int statue = userService.login(user);
+            if(statue > 0){
+                return "redirect:forMain";
+            }else {
+                model.addAttribute("error","登录失败");
+                return "redirect:login";
+            }
+        }catch (Exception e){
+            logger.error("=======登录异常=====");
+            logger.error(e.getMessage());
+            model.addAttribute("error","登录失败");
             return "redirect:login";
         }
-
     }
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
