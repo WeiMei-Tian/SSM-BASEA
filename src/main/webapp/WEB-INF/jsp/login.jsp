@@ -13,8 +13,11 @@
 <%--<%@include file="tag.jsp"%>--%>
 <html>
 <head>
+    <%--<%@include file="head.jsp"%>--%>
     <title>登录界面</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="${pageContext.request.contextPath}/assets/sbadmin/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/userJs.js"></script>
     <style>
         /*body{ text-align:center}*/
         .div{text-align: center;
@@ -39,12 +42,16 @@
         }
         .errorMsg{color: #761c19}
         .sumbit{margin-top: 30px}
+        .reg_div{margin-top: 15px;
+            text-align: left;
+            width:350px}
     </style>
 </head>
 <body>
+<button id="js">asfwef</button>
 <div class="div">
         <form:form modelAttribute="user" method="post" action="${pageContext.request.contextPath}loginAction">
-            <div class="tip">登陆界面</div>
+            <div class="tip">登录界面</div>
             <div class="name">
                 <div class="col1">
                     用户名：
@@ -76,14 +83,12 @@
                     <form:errors path="password"></form:errors><br/>
                 </div>
             </div>
-            <input class="sumbit" type="submit" value="Submit" /><br/>
+
+            <input class="sumbit" type="submit" value="Submit" />登录<br/>
             <label class="errorMsg">${error}</label>
         </form:form>
+
+        <div class="reg_div"><button id="">aaaaaa</button></div>
 </div>
 </body>
-<script type="text/javascript">
-    $(function() {
-
-        })
-</script>
 </html>

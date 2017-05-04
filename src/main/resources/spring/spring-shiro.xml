@@ -8,15 +8,42 @@
       http://www.springframework.org/schema/context
       http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <!-- 单realm应用。如果有多个realm，使用‘realms’属性代替 -->
-        <property name="cacheManager" ref="cacheManager" />
+    <!-- 对应于web.xml中配置的那个shiroFilter -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- Shiro的核心安全接口，这个属性是必须的 -->
+        <property name="securityManager" ref="securityManager" />
+        <!-- 要求登录时的链接(登录页面地址)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
+        <property name="loginUrl" value="/login" />
+
+        <property name="filterChainDefinitions">
+            <value>
+                /login = anon
+                /regisiter = anon
+                /app/** = authc
+                /user/** = authc
+            </value>
+        </property>
     </bean>
 
-    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" />
+    <!-- 会话管理器 -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <!-- session的失效时长，单位毫秒 -->
+        <property name="globalSessionTimeout" value="600000"/>
+        <!-- 删除失效的session -->
+        <property name="deleteInvalidSessions" value="true"/>
+    </bean>
 
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-          <property name="securityManager" ref="securityManager"/>
-     </bean>
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <!-- 缓存管理器 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>
+    </bean>
+    <bean id="myShiroRealm" class="com.gmobile.shiro.MyShiroRealm"/>
+    <!-- Shiro安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myShiroRealm"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
 
 </beans>

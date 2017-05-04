@@ -6,5 +6,8 @@ import com.gmobile.domain.User;
  * Created by liwei on 2017/4/25.
  */
 public interface UserService {
-    int login(User user) throws Exception;
+
+    int addUser(User user) throws Exception;
+
+    User login(User user) throws Exception;
 }

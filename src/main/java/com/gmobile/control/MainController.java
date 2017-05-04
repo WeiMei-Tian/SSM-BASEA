@@ -2,11 +2,16 @@ package com.gmobile.control;
 
 import com.gmobile.domain.User;
 import com.gmobile.service.UserService;
-import com.gmobile.util.BaseReturn;
-import com.gmobile.util.ErrorCode;
-import com.gmobile.util.ImageUtil;
-import com.gmobile.util.MD5Util;
+import com.gmobile.util.*;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import com.sun.javafx.sg.prism.NGShape;
 import org.apache.log4j.Logger;
+import org.apache.log4j.spi.LoggerFactory;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -30,50 +37,7 @@ import java.util.List;
 @RequestMapping("/app")
 public class MainController {
 
-    @Autowired
-    private UserService userService;
-
-    private Logger logger = Logger.getLogger(MainController.class);
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    private String login(Model model,HttpServletRequest request){
-        User user = new User();
-        model.addAttribute("user",user);
-        String error = request.getParameter("error");
-        model.addAttribute("error",error);
-        return "login";
-    }
-
-    @RequestMapping(value = "/loginAction", method = RequestMethod.POST)
-    private String loginAction(@Valid @ModelAttribute("user") User user ,
-                               BindingResult bindingResult,
-                               Model model){
-
-        if(bindingResult.hasErrors()){
-            return "redirect:login";
-        }
-
-        Date current_date = new Date();
-        SimpleDateFormat SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        user.setCreateTime(SimpleDateFormat.format(current_date.getTime()));
-        user.setStatus("enable");
-        user.setPassword(MD5Util.getMD5Str(user.getPassword()));
-
-        try{
-            int statue = userService.login(user);
-            if(statue > 0){
-                return "redirect:forMain";
-            }else {
-                model.addAttribute("error","登录失败");
-                return "redirect:login";
-            }
-        }catch (Exception e){
-            logger.error("=======登录异常=====");
-            logger.error(e.getMessage());
-            model.addAttribute("error","登录失败");
-            return "redirect:login";
-        }
-    }
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     private String hello(){
@@ -82,6 +46,9 @@ public class MainController {
 
     @RequestMapping(value = "/forMain", method = RequestMethod.GET)
     private String froMain(){
+        Session session = SecurityUtils.getSubject().getSession();
+        User user = (User) session.getAttribute(Constant.USER_INFO);
+        logger.error("(((((((((((((((((((((((" + user.getUsername() + "-----" + user.getPassword());
         return "index";
     }
 

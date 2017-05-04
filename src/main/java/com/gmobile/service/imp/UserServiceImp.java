@@ -1,11 +1,11 @@
 package com.gmobile.service.imp;
 
-import com.alibaba.druid.pool.ExceptionSorter;
 import com.gmobile.dao.UserDao;
 import com.gmobile.domain.User;
 import com.gmobile.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,9 +19,11 @@ public class UserServiceImp implements UserService{
 
     private Logger logger = Logger.getLogger(UserServiceImp.class);
 
-    public int login(User user){
-            int statue = userDao.insert(user);
-            return statue;
+    public int addUser(User user) throws Exception {
+        return userDao.insert(user);
+    }
 
+    public User login(User user) throws Exception{
+        return userDao.loginUser(user);
     }
 }
