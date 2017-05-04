@@ -14,13 +14,14 @@
         <property name="securityManager" ref="securityManager" />
         <!-- 要求登录时的链接(登录页面地址)，非必须的属性，默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
         <property name="loginUrl" value="/login" />
-
+        <property name="unauthorizedUrl" value="/app/403" />
         <property name="filterChainDefinitions">
             <value>
                 /login = anon
                 /regisiter = anon
                 /app/** = authc
                 /user/** = authc
+                /app/forMain = roles[manager]
             </value>
         </property>
     </bean>
@@ -34,15 +35,19 @@
     </bean>
 
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
     <!-- 缓存管理器 -->
-    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-        <property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>
-    </bean>
+    <!--<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">-->
+        <!--<property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>-->
+    <!--</bean>-->
+
+    <!-- 缓存管理 -->
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean>
     <bean id="myShiroRealm" class="com.gmobile.shiro.MyShiroRealm"/>
     <!-- Shiro安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realm" ref="myShiroRealm"/>
-        <property name="cacheManager" ref="cacheManager"/>
+        <property name="cacheManager" ref="shiroCacheManager"/>
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
 

@@ -46,9 +46,16 @@ public class MainController {
 
     @RequestMapping(value = "/forMain", method = RequestMethod.GET)
     private String froMain(){
-        Session session = SecurityUtils.getSubject().getSession();
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
         User user = (User) session.getAttribute(Constant.USER_INFO);
         logger.error("(((((((((((((((((((((((" + user.getUsername() + "-----" + user.getPassword());
+        if(subject.hasRole("manager")){
+            logger.info("拥有manager权限");
+        }else {
+            logger.error("bu拥有manager权限");
+            return "404/404";
+        }
         return "index";
     }
 
@@ -58,6 +65,10 @@ public class MainController {
         return "user/fileupload";
     }
 
+    @RequestMapping("/403")
+    public String error() {
+        return "404/404";
+    }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody

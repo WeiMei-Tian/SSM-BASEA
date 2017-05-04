@@ -13,4 +13,6 @@
 
     <!--上传相关-->
     <bean id="multipartResolver" class="com.gmobile.upload.MyMultipartResolve"/>
+
+    <bean id="userManager" class="com.gmobile.manager.UserManager"/>
 </beans>

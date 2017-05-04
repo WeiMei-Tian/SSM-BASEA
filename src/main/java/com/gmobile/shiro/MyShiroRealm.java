@@ -1,6 +1,7 @@
 package com.gmobile.shiro;
 
 import com.gmobile.domain.User;
+import com.gmobile.manager.UserManager;
 import com.gmobile.service.UserService;
 import com.gmobile.util.Constant;
 import org.apache.shiro.authc.*;
@@ -20,6 +21,9 @@ public class MyShiroRealm extends AuthorizingRealm {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	UserManager userManager;
+
 	/***
 	 * 获取授权信息，也就是看有没有权限操作
 	 */
@@ -27,7 +31,11 @@ public class MyShiroRealm extends AuthorizingRealm {
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		logger.info("-----授权-----");
 		User user = (User) principals.getPrimaryPrincipal();
-		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+		SimpleAuthorizationInfo authorizationInfo = null;
+		if(user != null){
+			authorizationInfo = new SimpleAuthorizationInfo();
+			authorizationInfo.addRole("manager");
+		}
 		return authorizationInfo;
 	}
 
@@ -44,7 +52,7 @@ public class MyShiroRealm extends AuthorizingRealm {
 		user.setUsername(token.getUsername());
 		user.setPassword(new String(token.getPassword()));
 		try {
-			user = userService.login(user);
+			user = userManager.login(user);
 			if(user != null){
 				logger.info("---------------认证成功---------------------");
 				return new SimpleAuthenticationInfo(user, user.getPassword().toCharArray(), getName());

@@ -10,6 +10,7 @@ import javax.validation.constraints.Size;
  */
 public class User {
 
+    private int id;
     private String username;
     private String password;
     private String mobile;
