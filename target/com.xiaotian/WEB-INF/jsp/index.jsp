@@ -282,10 +282,12 @@
 
         function deleteUser(id){
             $.ajax({
-                url : basePath + '/user/delete'+id,
+                url : basePath + '/user/delete/'+id,
                 type : 'GET',
+                dataType : "json",
                 success: function(data) {
-                    result = eval(data);
+                    var result = eval(data);
+                    console.info("-----" + result.code);
                     if(result.code == '0'){
                         ShowSuccess("成功删除"+result.data+"条数据");
                     }else{

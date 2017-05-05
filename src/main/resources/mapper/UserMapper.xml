@@ -38,7 +38,7 @@
     </select>
 
     <delete id="deleteUser">
-        DELETE FORM
-        usr_suer WHERE id = #{id}
+        DELETE FROM
+        usr_user WHERE id = #{id}
     </delete>
 </mapper>
