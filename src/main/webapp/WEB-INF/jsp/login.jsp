@@ -16,10 +16,14 @@
     <%--<%@include file="head.jsp"%>--%>
     <title>登录界面</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/sbadmin/bootstrap/dist/css/bootstrap.min.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/assets/sbadmin/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/static/js/userJs.js"></script>
+    <script src="${pageContext.request.contextPath}/assets/common/showTip.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="${pageContext.request.contextPath}/assets/sbadmin/bootstrap/dist/js/bootstrap.min.js"></script>
     <style>
-        /*body{ text-align:center}*/
+        body{ text-align:center}
         .div{text-align: center;
             background-image: url("../images/login_bg.jpg");
             position: absolute;left: 50%;top: 50%;
@@ -28,6 +32,7 @@
             height:400px;
             border:2px solid #EFF9F9;
         }
+        .div_btn{display: inline-block}
         .tip{margin-top: 15px}
         .name{margin-top: 20px}
         .col1{
@@ -48,8 +53,54 @@
     </style>
 </head>
 <body>
-<button id="js">asfwef</button>
-<div class="div">
+
+<div id="wrapper">
+
+    <!-- 添加，修改用户的模态框 -->
+    <div class="modal fade" id="addEditModal" tabindex="-1" role="dialog"
+         aria-labelledby="addEditModalTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="addEditModalTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">用户名</label>
+                            <div class="col-sm-10">
+
+                                <input id="username" type="text" class="form-control"
+                                       placeholder="请输入用户名  *可以是字母，数字，下画线_或其组合)" onkeyup="this.value=this.value.replace(/[^\w_]/g,'')">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">登录密码</label>
+                            <div class="col-sm-5">
+
+                                <input id="password" type="text" class="form-control"
+                                       placeholder="请输入登录密码">
+                            </div>
+                            <div class="col-sm-5">
+                                <button id="setDefaultPwd" class="btn btn-success" onclick="document.getElementById('password').value=123456">初始密码为123456</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">取消</button>
+                    <button id="btnRegisiter" type="button" class="btn btn-primary">注册</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="div">
         <form:form modelAttribute="user" method="post" action="${pageContext.request.contextPath}loginAction">
             <div class="tip">登录界面</div>
             <div class="name">
@@ -84,11 +135,20 @@
                 </div>
             </div>
 
-            <input class="sumbit" type="submit" value="Submit" />登录<br/>
+            <div class="div_btn">
+                <input class="sumbit" type="submit" value="登录" /><br/>
+            </div>
+
             <label class="errorMsg">${error}</label>
         </form:form>
-
-        <div class="reg_div"><button id="">aaaaaa</button></div>
+        <br/>
+        <button id="regisiter">注册</button>
+    </div>
 </div>
 </body>
+<script>
+    $(document).ready(function(){
+
+    })
+</script>
 </html>

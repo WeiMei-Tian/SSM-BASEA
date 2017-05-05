@@ -11,6 +11,15 @@ import javax.validation.constraints.Size;
 public class User {
 
     private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private String username;
     private String password;
     private String mobile;

@@ -2,7 +2,9 @@ package com.gmobile.control;
 
 import com.gmobile.domain.User;
 import com.gmobile.service.UserService;
+import com.gmobile.util.BaseReturn;
 import com.gmobile.util.Constant;
+import com.gmobile.util.ErrorCode;
 import com.gmobile.util.MD5Util;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import org.apache.log4j.Logger;
@@ -14,11 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.io.Serializable;
@@ -45,15 +47,10 @@ public class LoginController {
         return "regisiter";
     }
 
-    @RequestMapping(value = "/regisiterAction", method = RequestMethod.POST)
-    private String regisiterAction(@Valid @ModelAttribute("user") User user ,
-                                   BindingResult bindingResult,
+    @RequestMapping(value = "/regisiterAction", method = RequestMethod.POST,produces = "text/json;charset=UTF-8")
+    @ResponseBody
+    private String regisiterAction(@RequestBody User user ,
                                    Model model){
-
-        if(bindingResult.hasErrors()){
-            return "redirect:regisiter";
-        }
-
         Date current_date = new Date();
         SimpleDateFormat SimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         user.setCreateTime(SimpleDateFormat.format(current_date.getTime()));
@@ -63,31 +60,22 @@ public class LoginController {
         try{
             int statue = userService.addUser(user);
             if(statue > 0){
-                return "redirect:login";
+                return BaseReturn.response(ErrorCode.SUCCESS);
             }else {
-                model.addAttribute("error","注册失败");
-                return "redirect:regisiter";
+                return BaseReturn.response(ErrorCode.FAILURE);
             }
         }catch (Exception e){
             Throwable cause = e.getCause();
-            model.addAttribute("error","注册失败");
             if(cause instanceof MySQLIntegrityConstraintViolationException){
-                model.addAttribute("error","账号已存在");
+                return BaseReturn.response(ErrorCode.USER_ACCOUNT_EXISTS);
             }
-            logger.error("############################");
-            logger.error(cause);
-            logger.error(e.getMessage());
-            return "redirect:regisiter";
+            return BaseReturn.response(ErrorCode.FAILURE);
         }
     }
 
     @RequestMapping(value = "/login")
-    private String login(Model model, HttpServletRequest request, HttpSession session){
-//        if(session.getAttribute(Constant.SESSION_LOGIN_DES_KEY) != null){
-//            logger.info("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-//            logger.info(session.getAttribute(Constant.SESSION_LOGIN_DES_KEY));
-//            return "redirect:forMain";
-//        }
+    private String login(Model model, HttpServletRequest request,
+                         HttpServletResponse response){
         User user = new User();
         model.addAttribute("user",user);
         String error = request.getParameter("error");

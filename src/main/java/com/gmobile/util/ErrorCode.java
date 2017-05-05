@@ -17,7 +17,9 @@ public enum ErrorCode {
 	USER_FROZEN("41001","user was frozen"), 
 	NOT_AUTHORIZED("42000","not authorized"),
 	JSON_ERROR("47001","JSON/XML parse error"),
-	PERMISSION_DENIED("004","permission denied");
+	PERMISSION_DENIED("004","permission denied"),
+	USER_ACCOUNT_EXISTS("544","account exists");
+
 	private String code; //error code
 	private String message;  //error message
 	private ErrorCode(String code,String message){

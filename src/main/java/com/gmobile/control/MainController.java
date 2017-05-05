@@ -1,6 +1,7 @@
 package com.gmobile.control;
 
 import com.gmobile.domain.User;
+import com.gmobile.domain.UserBo;
 import com.gmobile.service.UserService;
 import com.gmobile.util.*;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
@@ -29,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by admin on 2017/3/20.
@@ -36,6 +38,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/app")
 public class MainController {
+
+    @Autowired
+    UserService userService;
 
     private Logger logger = Logger.getLogger(this.getClass());
 
@@ -45,17 +50,26 @@ public class MainController {
     }
 
     @RequestMapping(value = "/forMain", method = RequestMethod.GET)
-    private String froMain(){
+    private String froMain(HttpSession httpSession,Model model){
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         User user = (User) session.getAttribute(Constant.USER_INFO);
-        logger.error("(((((((((((((((((((((((" + user.getUsername() + "-----" + user.getPassword());
-        if(subject.hasRole("manager")){
-            logger.info("拥有manager权限");
-        }else {
-            logger.error("bu拥有manager权限");
-            return "404/404";
+        logger.error("***********shiro****session***********" + user.getUsername() + "-----" + user.getPassword());
+        subject.hasRole("manager");
+        try {
+            Set<String> funcCodes = (Set<String>) session.getAttribute(Constant.USER_FUNS);
+            List<String> roleNames = (List<String>) session.getAttribute(Constant.USER_ROLES);
+            logger.info("*********************回传的方法集合***************");
+            logger.info(String.valueOf(funcCodes));
+            model.addAttribute("funs",funcCodes);
+            model.addAttribute("roles",roleNames);
+
+            List<User> users = userService.selectAllUsers();
+            model.addAttribute("users",users);
+        }catch (Exception e){
+
         }
+
         return "index";
     }
 

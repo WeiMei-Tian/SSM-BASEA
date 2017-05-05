@@ -8,4 +8,6 @@ public class Constant {
 
     public static final String SESSION_LOGIN_DES_KEY = "user_login_session";
     public static final String USER_INFO = "user_info";
+    public static final String USER_FUNS = "user_funs";
+    public static final String USER_ROLES = "user_roles";
 }

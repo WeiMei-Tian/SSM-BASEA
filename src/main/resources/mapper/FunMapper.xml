@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace指向我们的dao所在的地址 -->
+<mapper namespace="com.gmobile.dao.FunDao">
+
+    <resultMap id="userFun" type="UserFun">
+    <id column="id" property="id" />
+    <result column="name" property="name" />
+    <result column="code" property="code" />
+    </resultMap>
+
+    <select id="selectUserFunByRoleId" resultMap="userFun">
+        SELECT id,name,code FROM
+        usr_func WHERE usr_func.id = #{roleId}
+    </select>
+
+</mapper>

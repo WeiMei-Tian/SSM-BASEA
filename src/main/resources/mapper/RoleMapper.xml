@@ -10,10 +10,21 @@
     <result column="userId" property="userId" />
     </resultMap>
 
+    <resultMap id="role" type="UserRole">
+        <id column="id" property="id" />
+        <result column="roleName" property="roleName" />
+        <result column="description" property="description" />
+    </resultMap>
+
     <select id="selectRolesByUserId" resultMap="userRole">
         SELECT usr_role.id,usr_role.roleName,usr_role.description FROM
         usr_user_role,usr_role WHERE usr_user_role.userId = #{user.id}
         AND usr_user_role.roleId = usr_role.id
+    </select>
+
+    <select id="selectAllRoles" resultMap="role">
+        SELECT *
+        FROM usr_role
     </select>
 
 </mapper>
