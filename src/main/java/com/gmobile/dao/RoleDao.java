@@ -13,6 +13,6 @@ public interface RoleDao {
 
     public List<UserRole> selectRolesByUserId(@Param("user")User user);
 
-    public List<UserRole> selectAllRoles() throws Exception;
+    public List<UserRole> selectAllRoles();
 
 }

@@ -41,4 +41,9 @@
         DELETE FROM
         usr_user WHERE id = #{id}
     </delete>
+
+    <select id="selectUsersByPage" resultMap="user">
+        SELECT * FROM
+        usr_user limit #{pageStartNm},#{pageSize}
+    </select>
 </mapper>

@@ -16,6 +16,8 @@ public interface UserService {
 
     List<User> selectAllUsers() throws Exception;
 
+    List<User> selectUsersByPage(int pageNumber,int pageSize) throws Exception;
+
     List<UserRole> selectAllRoles() throws Exception;
 
     int deleteUser(int id) throws Exception;

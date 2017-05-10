@@ -7,10 +7,7 @@ import com.gmobile.util.BaseReturn;
 import com.gmobile.util.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,7 +43,7 @@ public class UserController {
         return BaseReturn.response(ErrorCode.FAILURE);
     }
 
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET,produces = "text/json;charset=UTF-8")
     @ResponseBody
     public String delete(@PathVariable String id) {
 
@@ -62,5 +59,18 @@ public class UserController {
             e.printStackTrace();
             return BaseReturn.response(ErrorCode.FAILURE, "删除用户失败");
         }
+    }
+
+    @RequestMapping(value = "/getusers/page", method = RequestMethod.GET, produces = "text/json;charset=UTF-8")
+    @ResponseBody
+    public String getUsersByPage(@RequestParam int pageIndex, @RequestParam int pageSize){
+        List<User> users = null;
+        try {
+            users = userService.selectUsersByPage(pageIndex,pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return BaseReturn.response(ErrorCode.FAILURE,"获取用户列表失败                                    ");
+        }
+        return BaseReturn.response(ErrorCode.SUCCESS, users);
     }
 }

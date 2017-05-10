@@ -11,13 +11,15 @@ import java.util.List;
  * Created by liwei on 2017/4/25.
  */
 public interface UserDao {
-    public int insert(@Param("user") User user) throws Exception;
+     int insert(@Param("user") User user);
 
-    public int insertNotExist(@Param("user") User user) throws Exception;
+     int insertNotExist(@Param("user") User user);
 
-    public User loginUser(@Param("user") User user) throws Exception;
+     User loginUser(@Param("user") User user);
 
-    public List<User> selectAllUsers() throws Exception;
+     List<User> selectAllUsers();
 
-    public int deleteUser(@Param("id") int id) throws Exception;
+     int deleteUser(@Param("id") int id);
+
+     List<User> selectUsersByPage(@Param("pageStartNm") int pageStartNm,@Param("pageSize") int pageSize);
 }

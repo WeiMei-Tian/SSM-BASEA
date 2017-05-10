@@ -25,23 +25,27 @@ public class UserServiceImp implements UserService{
 
     private Logger logger = Logger.getLogger(UserServiceImp.class);
 
-    public int addUser(User user) throws Exception {
+    public int addUser(User user){
         return userDao.insert(user);
     }
 
-    public User login(User user) throws Exception{
+    public User login(User user){
         return userDao.loginUser(user);
     }
 
-    public List<User> selectAllUsers() throws Exception {
+    public List<User> selectAllUsers() {
         return userDao.selectAllUsers();
     }
 
-    public List<UserRole> selectAllRoles() throws Exception {
+    public List<User> selectUsersByPage(int pageNumber, int pageSize) throws Exception {
+        return userDao.selectUsersByPage((pageNumber+1)*pageSize,pageSize);
+    }
+
+    public List<UserRole> selectAllRoles(){
         return roleDao.selectAllRoles();
     }
 
-    public int deleteUser(int id) throws Exception {
+    public int deleteUser(int id){
         return userDao.deleteUser(id);
     }
 

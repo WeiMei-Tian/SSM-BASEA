@@ -6,12 +6,26 @@
 <head>
     <title>主页</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/sbadmin/bootstrap/dist/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link
+            href="${pageContext.request.contextPath}/assets/sbadmin/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css"
+            rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="${pageContext.request.contextPath}/assets/sbadmin/datatables-responsive/css/dataTables.responsive.css"
+          rel="stylesheet">
     <!-- jQuery -->
     <script src="${pageContext.request.contextPath}/assets/sbadmin/jquery/dist/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/assets/common/showTip.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="${pageContext.request.contextPath}/assets/sbadmin/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- DataTables JavaScript -->
+    <script
+            src="${pageContext.request.contextPath}/assets/sbadmin/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script
+            src="${pageContext.request.contextPath}/assets/sbadmin/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 </head>
 <body>
 <h2>Hello World!</h2>
@@ -117,7 +131,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading text-center">
                     <button id="addUser" type="button" class="btn btn-success">添加用户</button>
                     <button id="getRoles" type="button" class="btn btn-success">获取所有角色</button>
                 </div>
@@ -302,6 +316,30 @@
                 }
             })
         }
+
+        // 表格居中
+        $('td').attr("class", "text-center");
+        $('th').attr("class", "text-center");
+        // 分页插件
+        $('#dataTables-example').DataTable({
+            bSort : false,
+            "sPaginationType" : "full_numbers",
+            "oLanguage" : {
+                "sLengthMenu" : "每页显示 _MENU_ 条记录",
+                "sZeroRecords" : "抱歉， 没有找到",
+                "sInfo" : "从 _START_ 到 _END_ /共 _TOTAL_ 条数据",
+                "sInfoEmpty" : "没有数据",
+                "sInfoFiltered" : "(从 _MAX_ 条数据中检索)",
+                "sZeroRecords" : "没有检索到数据",
+                "sSearch" : "搜索:",
+                "oPaginate" : {
+                    "sFirst" : "首页",
+                    "sPrevious" : "上一页",
+                    "sNext" : "下一页",
+                    "sLast" : "尾页"
+                }
+            }
+        });
     })
 </script>
 </html>
