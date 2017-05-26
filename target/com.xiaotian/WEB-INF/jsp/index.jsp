@@ -185,6 +185,7 @@
 
         var location = (window.location+'').split('/');
         var basePath = location[0]+'//'+location[2];
+        basePath = '${pageContext.request.contextPath}';
 
         // 添加修改的模态框
         var addEditModal = $("#addEditModal");

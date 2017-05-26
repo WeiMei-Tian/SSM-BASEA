@@ -25,7 +25,7 @@
     <style>
         body{ text-align:center}
         .div{text-align: center;
-            background-image: url("../images/login_bg.jpg");
+            background-image: url("${pageContext.request.contextPath}/static/images/login_bg.jpg");
             position: absolute;left: 50%;top: 50%;
             margin-left: -300px;margin-top: -200px;}
         .div{ width:600px;
@@ -33,8 +33,8 @@
             border:2px solid #EFF9F9;
         }
         .div_btn{display: inline-block}
-        .tip{margin-top: 15px}
-        .name{margin-top: 20px}
+        .tip{margin-top: 15px;font-size: 25px}
+        .name{margin-top: 35px}
         .col1{
             width: 100px;
             display: inline-block;
@@ -101,8 +101,8 @@
     </div>
 
     <div class="div">
-        <form:form modelAttribute="user" method="post" action="${pageContext.request.contextPath}loginAction">
-            <div class="tip">登录界面</div>
+        <form:form modelAttribute="user" method="post" action="${pageContext.request.contextPath}/loginAction">
+            <div class="tip">欢迎你访问燃烧哥的Hello World！！！</div>
             <div class="name">
                 <div class="col1">
                     用户名：
@@ -146,9 +146,12 @@
     </div>
 </div>
 </body>
-<script>
+<script type="text/javascript">
     $(document).ready(function(){
-
+        app.path(
+            '${pageContext.request.contextPath}'
+        );
+        app.init()
     })
 </script>
 </html>
